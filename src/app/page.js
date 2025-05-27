@@ -70,6 +70,26 @@ export default function Home() {
             "mysql-icon.svg"],
   }));
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const message = e.target.message.value;
+  
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, message }),
+    });
+  
+    if (res.ok) {
+      alert("Message envoyé !");
+      e.target.reset();
+    } else {
+      alert("Erreur lors de l'envoi.");
+    }
+  };
 
   return (
     <>
@@ -244,7 +264,7 @@ sendEmail({ from: sender, to, subject, message })`}
               </div>
 
               {/* Formulaire stylisé */}
-              <form className="w-full lg:w-1/2 bg-white/70 dark:bg-gray-900/40 backdrop-blur-md rounded-xl shadow-xl p-8 space-y-6 border border-white/30">
+              <form onSubmit={handleSubmit} className="w-full lg:w-1/2 bg-white/70 dark:bg-gray-900/40 backdrop-blur-md rounded-xl shadow-xl p-8 space-y-6 border border-white/30">
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">
                     {t.name}
