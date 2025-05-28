@@ -203,23 +203,7 @@ export default function Home() {
             className="relative w-full max-w-6xl overflow-x-auto scrollbar-hide"
             style={{ WebkitOverflowScrolling: "touch" }}
             onMouseEnter={() => setIsSliderHovered(true)}
-            onMouseLeave={(e) => {
-              setIsSliderHovered(false);
-              e.currentTarget.isDown = false;
-            }}
-            onMouseDown={(e) => {
-              const slider = e.currentTarget;
-              slider.isDown = true;
-              slider.startX = e.pageX - slider.offsetLeft;
-              slider.scrollLeftStart = slider.scrollLeft;
-            }}
-            onMouseMove={(e) => {
-              const slider = e.currentTarget;
-              if (!slider.isDown) return;
-              const x = e.pageX - slider.offsetLeft;
-              const walk = x - slider.startX;
-              slider.scrollLeft = slider.scrollLeftStart - walk;
-            }}
+            onMouseLeave={() => setIsSliderHovered(false)}
             onTouchStart={(e) => {
               const slider = e.currentTarget;
               slider.startX = e.touches[0].pageX;
