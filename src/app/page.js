@@ -60,7 +60,7 @@ export default function Home() {
       index === 0
         ? [
           "Spring_Boot.svg.png",
-          "java_logo.svg.png",
+          "Java_Logo.svg.png",
           "Angular_full_color_logo.svg.png",
           "Typescript_logo_2020.svg.png",
           "mysql-icon.svg",
