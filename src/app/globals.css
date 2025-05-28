@@ -17,6 +17,19 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.4s ease-out;
 }
 
 body {

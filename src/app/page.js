@@ -34,7 +34,7 @@ export default function Home() {
   const intervalRef = useRef(null);
   const { lang } = useLang();
   const t = translations[lang];
-
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   useEffect(() => {
     if (!isHovered) {
@@ -72,23 +72,29 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const message = e.target.message.value;
-  
+    const name = e.target.name.value.trim();
+    const email = e.target.email.value.trim();
+    const message = e.target.message.value.trim();
+
+    if (!name || !email || !message) {
+      setToast({ show: true, message: "Tous les champs sont requis", type: "error" });
+      return;
+    }
+
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, message }),
     });
-  
+
     if (res.ok) {
-      alert("Message envoyé !");
+      setToast({ show: true, message: "Message envoyé ", type: "success" });
       e.target.reset();
     } else {
-      alert("Erreur lors de l'envoi.");
+      setToast({ show: true, message: "Erreur lors de l’envoi", type: "error" });
     }
+
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 5000);
   };
 
   return (
@@ -186,9 +192,9 @@ export default function Home() {
     hover:scale-105 hover:shadow-2xl
   `}
                   style={{
-                    width: isActive ? "700px" : "500px", 
-                    height: "80%", 
-                    maxHeight: "100%", 
+                    width: isActive ? "700px" : "500px",
+                    height: "80%",
+                    maxHeight: "100%",
                   }}
                 >
                   <div className="bg-[#1a2036] h-full w-full p-10 rounded-2xl shadow-2xl border border-[#232a47] flex flex-col justify-between">
@@ -308,6 +314,50 @@ sendEmail({ from: sender, to, subject, message })`}
                   {t.send}
                 </button>
               </form>
+              {toast.show && (
+  <div
+    className={`fixed top-6 right-6 z-50 flex items-center gap-4 px-6 py-4 
+      border shadow-lg rounded-xl w-[400px] max-w-full animate-slide-in
+      ${
+        toast.type === "success"
+          ? "bg-white border-green-400 text-green-700"
+          : "bg-white border-red-400 text-red-700"
+      }`}
+  >
+    {toast.type === "success" ? (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-8 w-8 text-green-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    ) : (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-8 w-8 text-red-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    )}
+    <span className="text-lg font-semibold">{toast.message}</span>
+  </div>
+)}
+
+
+
+
             </div>
           </div>
         </section>
