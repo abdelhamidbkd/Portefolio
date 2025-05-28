@@ -126,8 +126,8 @@ export default function Home() {
           <p className="max-w-xl text-lg md:text-xl mb-8">{t.about}</p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a
-              href="/cv-abdelhamid.pdf"
-              download
+              href="/BENKADA_CV_ALTERNANCE.pdf"
+              download="BENKADA_CV_ALTERNANCE.pdf"
               className="px-6 py-3 bg-white text-black border border-white rounded-full font-semibold transition hover:bg-transparent hover:text-black"
             >
               {t.downloadCV}
