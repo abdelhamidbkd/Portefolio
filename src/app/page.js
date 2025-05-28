@@ -36,6 +36,8 @@ export default function Home() {
   const t = translations[lang];
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
+
+
   useEffect(() => {
     if (!isHovered) {
       intervalRef.current = setInterval(() => {
@@ -54,6 +56,7 @@ export default function Home() {
     }
   }, [toast]);
 
+
   const projets = t.projectList.map((proj, index) => ({
     ...proj,
     technos:
@@ -68,14 +71,8 @@ export default function Home() {
           "ionicframework-icon.svg",
         ]
         : index === 1
-          ? [
-            "vueicon.svg",
-            "javascripticon.svg",]
-          : [
-            "images.jpg",
-            "reacticon.svg",
-            "javascripticon.svg",
-            "mysql-icon.svg"],
+          ? ["vueicon.svg", "javascripticon.svg"]
+          : ["images.jpg", "reacticon.svg", "javascripticon.svg", "mysql-icon.svg"],
   }));
 
   const handleSubmit = async (e) => {
@@ -96,13 +93,11 @@ export default function Home() {
     });
 
     if (res.ok) {
-      setToast({ show: true, message: "Message envoyé ", type: "success" });
+      setToast({ show: true, message: "Message envoyé", type: "success" });
       e.target.reset();
     } else {
       setToast({ show: true, message: "Erreur lors de l’envoi", type: "error" });
     }
-
-    setTimeout(() => setToast({ show: false, message: "", type: "" }), 5000);
   };
 
   return (
@@ -175,71 +170,30 @@ export default function Home() {
 
 
         {/* Projets Section */}
-        <section id="projets" className="min-h-screen bg-gradient-to-r from-[#f7d7f7] to-[#c9e4ff] text-white flex flex-col items-center justify-center px-4">
+        <section id="projets" className="min-h-screen bg-gradient-to-r from-[#f7d7f7] to-[#c9e4ff] text-white flex flex-col items-center justify-center px-4 py-10">
           <h2 className="text-4xl text-gray-900 font-bold mb-10">{t.projects}</h2>
-
-          <div className="relative w-full max-w-6xl h-[450px] flex items-center justify-center overflow-hidden">
-            {projets.map((projet, index) => {
-              const offset = index - activeIndex;
-              const isActive = offset === 0;
-              const isHidden = Math.abs(offset) > 2;
-
-              return (
-                <div
-                  key={index}
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                  className={`
-    absolute transition-all duration-500 ease-in-out
-    ${isHidden ? "opacity-0 scale-75 z-0" : ""}
-    ${isActive ? "scale-100 z-20" : "scale-90 z-10"}
-    ${offset === -1 ? "-translate-x-[60%]" : ""}
-    ${offset === 1 ? "translate-x-[60%]" : ""}
-    ${offset <= -2 ? "-translate-x-[100%]" : ""}
-    ${offset >= 2 ? "translate-x-[100%]" : ""}
-    hover:scale-105 hover:shadow-2xl
-  `}
-                  style={{
-                    width: isActive ? "700px" : "500px",
-                    height: "80%",
-                    maxHeight: "100%",
-                  }}
-                >
-                  <div className="bg-[#1a2036] h-full w-full p-10 rounded-2xl shadow-2xl border border-[#232a47] flex flex-col justify-between">
-                    <h3 className="text-2xl font-bold mb-4">{projet.titre}</h3>
-                    <p className="text-sm">{projet.description}</p>
-                    <span className="mt-6 font-semibold text-white text-lg">{t.tech}</span>
-                    <div className="flex gap-4 mt-2">
-                      {projet.technos.map((tech, i) => (
-                        <div key={i} className="w-8 h-8 relative">
-                          <Image
-                            src={`/${tech}`}
-                            alt={`Logo de ${tech}`}
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-
-            <button
-              onClick={() => setActiveIndex((prev) => Math.max(prev - 1, 0))}
-              className="absolute left-4 top-1/2 -translate-y-1/2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full z-30"
-            >
-              ◀
-            </button>
-            <button
-              onClick={() => setActiveIndex((prev) => Math.min(prev + 1, projets.length - 1))}
-              className="absolute right-4 top-1/2 -translate-y-1/2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full z-30"
-            >
-              ▶
-            </button>
+          <div className="w-full overflow-x-scroll scroll-smooth snap-x snap-mandatory flex gap-6 px-4 py-4">
+  {projets.map((projet, index) => (
+    <div
+      key={index}
+      className="flex-shrink-0 w-[85%] sm:w-[500px] md:w-[600px] lg:w-[700px] snap-center bg-[#1a2036] p-6 md:p-10 rounded-2xl shadow-2xl border border-[#232a47] text-white"
+    >
+      <h3 className="text-xl md:text-2xl font-bold mb-4">{projet.titre}</h3>
+      <p className="text-sm">{projet.description}</p>
+      <span className="mt-6 font-semibold text-white text-md md:text-lg">{t.tech}</span>
+      <div className="flex flex-wrap gap-4 mt-2">
+        {projet.technos.map((tech, i) => (
+          <div key={i} className="w-8 h-8 relative">
+            <Image src={`/${tech}`} alt={`Logo ${tech}`} fill className="object-contain" />
           </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
         </section>
+
 
 
         {/* Contact Section */}
@@ -373,3 +327,4 @@ sendEmail({ from: sender, to, subject, message })`}
     </>
   );
 }
+
