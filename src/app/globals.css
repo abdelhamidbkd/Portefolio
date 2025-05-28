@@ -17,20 +17,37 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}@keyframes slide-in {
-  from {
+}
+
+@keyframes fadeSlideIn {
+  0% {
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateY(-20px);
   }
-  to {
+  100% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-.animate-slide-in {
-  animation: slide-in 0.4s ease-out;
+@keyframes fadeSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
+
+.animate-fade-slide-in {
+  animation: fadeSlideIn 0.4s ease-out forwards;
+}
+.animate-fade-slide-out {
+  animation: fadeSlideOut 0.4s ease-in forwards;
+}
+
 
 body {
   background: var(--background);

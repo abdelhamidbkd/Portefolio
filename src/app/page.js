@@ -45,6 +45,14 @@ export default function Home() {
     return () => clearInterval(intervalRef.current);
   }, [isHovered]);
 
+  useEffect(() => {
+    if (toast.show) {
+      const timer = setTimeout(() => {
+        setToast({ show: false, message: "", type: "" });
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   const projets = t.projectList.map((proj, index) => ({
     ...proj,
@@ -315,45 +323,41 @@ sendEmail({ from: sender, to, subject, message })`}
                 </button>
               </form>
               {toast.show && (
-  <div
-    className={`fixed top-6 right-6 z-50 flex items-center gap-4 px-6 py-4 
-      border shadow-lg rounded-xl w-[400px] max-w-full animate-slide-in
-      ${
-        toast.type === "success"
-          ? "bg-white border-green-400 text-green-700"
-          : "bg-white border-red-400 text-red-700"
-      }`}
-  >
-    {toast.type === "success" ? (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-8 w-8 text-green-500"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-      </svg>
-    ) : (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-8 w-8 text-red-500"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    )}
-    <span className="text-lg font-semibold">{toast.message}</span>
-  </div>
-)}
+                <div
+                  className={`fixed top-8 right-8 z-50 flex items-center gap-4 px-8 py-6 
+      border shadow-2xl rounded-2xl w-[480px] max-w-full transition-all duration-500 
+      ${toast.type === "success"
+                      ? "bg-green-50 border-green-400 text-green-800 animate-fade-slide-in"
+                      : "bg-red-50 border-red-400 text-red-800 animate-fade-slide-in"
+                    }`}
+                >
+                  {toast.type === "success" ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-8 w-8 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-8 w-8 text-red-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  )}
+                  <span className="text-lg font-medium">{toast.message}</span>
+                </div>
+              )}
+
 
 
 
