@@ -35,8 +35,27 @@ export default function Home() {
   const { lang } = useLang();
   const t = translations[lang];
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const sliderRef = useRef(null);
+  const [isSliderHovered, setIsSliderHovered] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-
+  const projets = t.projectList.map((proj, index) => ({
+    ...proj,
+    technos:
+      index === 0
+        ? [
+          "Spring_Boot.svg.png",
+          "Java_Logo.svg.png",
+          "Angular_full_color_logo.svg.png",
+          "Typescript_logo_2020.svg.png",
+          "mysql-icon.svg",
+          "firebase-icon.svg",
+          "ionicframework-icon.svg",
+        ]
+        : index === 1
+          ? ["vueicon.svg", "javascripticon.svg"]
+          : ["images.jpg", "reacticon.svg", "javascripticon.svg", "mysql-icon.svg"],
+  }));
 
   useEffect(() => {
     if (!isHovered) {
@@ -56,24 +75,27 @@ export default function Home() {
     }
   }, [toast]);
 
+  useEffect(() => {
+    if (!sliderRef.current) return;
+    if (isSliderHovered) return;
 
-  const projets = t.projectList.map((proj, index) => ({
-    ...proj,
-    technos:
-      index === 0
-        ? [
-          "Spring_Boot.svg.png",
-          "Java_Logo.svg.png",
-          "Angular_full_color_logo.svg.png",
-          "Typescript_logo_2020.svg.png",
-          "mysql-icon.svg",
-          "firebase-icon.svg",
-          "ionicframework-icon.svg",
-        ]
-        : index === 1
-          ? ["vueicon.svg", "javascripticon.svg"]
-          : ["images.jpg", "reacticon.svg", "javascripticon.svg", "mysql-icon.svg"],
-  }));
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % projets.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isSliderHovered, projets.length]);
+
+  useEffect(() => {
+    if (!sliderRef.current) return;
+    const slider = sliderRef.current;
+    const card = slider.querySelectorAll('.project-card')[currentIndex];
+    if (!card) return;
+
+    const scrollLeft = card.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
+    slider.scrollTo({ left: scrollLeft, behavior: "smooth" });
+  }, [currentIndex, projets.length]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -177,19 +199,19 @@ export default function Home() {
           <h2 className="text-4xl text-gray-900 font-bold mb-10">{t.projects}</h2>
 
           <div
+            ref={sliderRef}
             className="relative w-full max-w-6xl overflow-x-auto scrollbar-hide"
             style={{ WebkitOverflowScrolling: "touch" }}
+            onMouseEnter={() => setIsSliderHovered(true)}
+            onMouseLeave={(e) => {
+              setIsSliderHovered(false);
+              e.currentTarget.isDown = false;
+            }}
             onMouseDown={(e) => {
               const slider = e.currentTarget;
               slider.isDown = true;
               slider.startX = e.pageX - slider.offsetLeft;
               slider.scrollLeftStart = slider.scrollLeft;
-            }}
-            onMouseUp={(e) => {
-              e.currentTarget.isDown = false;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.isDown = false;
             }}
             onMouseMove={(e) => {
               const slider = e.currentTarget;
@@ -214,7 +236,7 @@ export default function Home() {
               {projets.map((projet, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 w-[85%] sm:w-[70%] md:w-[500px] lg:w-[700px] bg-[#1a2036] rounded-2xl shadow-2xl border border-[#232a47] p-6 md:p-10"
+                  className="project-card flex-shrink-0 w-[85%] sm:w-[70%] md:w-[500px] lg:w-[700px] bg-[#1a2036] rounded-2xl shadow-2xl border border-[#232a47] p-6 md:p-10"
                 >
                   <h3 className="text-xl md:text-2xl font-bold mb-4">{projet.titre}</h3>
                   <p className="text-sm">{projet.description}</p>
