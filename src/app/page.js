@@ -9,7 +9,7 @@ import { useLang } from "../context/langContext";
 const competences = [
   { nom: "JavaScript", img: "/javascripticon.svg" },
   { nom: "TypeScript", img: "/Typescript_logo_2020.svg.png" },
-  { nom: "Java", img: "/Java_logo.svg.png" },
+  { nom: "Java", img: "/Java_Logo.svg.png" },
   { nom: "PHP", img: "/phpicon.svg" },
   { nom: "C#", img: "/images.jpg" },
   { nom: "React", img: "/reacticon.svg" },
