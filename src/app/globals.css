@@ -48,6 +48,13 @@
   animation: fadeSlideOut 0.4s ease-in forwards;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 
 body {
   background: var(--background);

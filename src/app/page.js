@@ -96,7 +96,7 @@ export default function Home() {
       setToast({ show: true, message: "Message envoyé", type: "success" });
       e.target.reset();
     } else {
-      setToast({ show: true, message: "Erreur lors de l’envoi", type: "error" });
+      setToast({ show: true, message: "Erreur lors de l'envoi", type: "error" });
     }
   };
 
@@ -170,29 +170,68 @@ export default function Home() {
 
 
         {/* Projets Section */}
-        <section id="projets" className="min-h-screen bg-gradient-to-r from-[#f7d7f7] to-[#c9e4ff] text-white flex flex-col items-center justify-center px-4 py-10">
+        <section
+          id="projets"
+          className="min-h-screen bg-gradient-to-r from-[#f7d7f7] to-[#c9e4ff] text-white flex flex-col items-center justify-center px-4"
+        >
           <h2 className="text-4xl text-gray-900 font-bold mb-10">{t.projects}</h2>
-          <div className="w-full overflow-x-scroll scroll-smooth snap-x snap-mandatory flex gap-6 px-4 py-4">
-  {projets.map((projet, index) => (
-    <div
-      key={index}
-      className="flex-shrink-0 w-[85%] sm:w-[500px] md:w-[600px] lg:w-[700px] snap-center bg-[#1a2036] p-6 md:p-10 rounded-2xl shadow-2xl border border-[#232a47] text-white"
-    >
-      <h3 className="text-xl md:text-2xl font-bold mb-4">{projet.titre}</h3>
-      <p className="text-sm">{projet.description}</p>
-      <span className="mt-6 font-semibold text-white text-md md:text-lg">{t.tech}</span>
-      <div className="flex flex-wrap gap-4 mt-2">
-        {projet.technos.map((tech, i) => (
-          <div key={i} className="w-8 h-8 relative">
-            <Image src={`/${tech}`} alt={`Logo ${tech}`} fill className="object-contain" />
-          </div>
-        ))}
-      </div>
-    </div>
-  ))}
-</div>
 
+          <div
+            className="relative w-full max-w-6xl overflow-x-auto scrollbar-hide"
+            style={{ WebkitOverflowScrolling: "touch" }}
+            onMouseDown={(e) => {
+              const slider = e.currentTarget;
+              slider.isDown = true;
+              slider.startX = e.pageX - slider.offsetLeft;
+              slider.scrollLeftStart = slider.scrollLeft;
+            }}
+            onMouseUp={(e) => {
+              e.currentTarget.isDown = false;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.isDown = false;
+            }}
+            onMouseMove={(e) => {
+              const slider = e.currentTarget;
+              if (!slider.isDown) return;
+              const x = e.pageX - slider.offsetLeft;
+              const walk = x - slider.startX;
+              slider.scrollLeft = slider.scrollLeftStart - walk;
+            }}
+            onTouchStart={(e) => {
+              const slider = e.currentTarget;
+              slider.startX = e.touches[0].pageX;
+              slider.scrollStart = slider.scrollLeft;
+            }}
+            onTouchMove={(e) => {
+              const slider = e.currentTarget;
+              const x = e.touches[0].pageX;
+              const walk = slider.startX - x;
+              slider.scrollLeft = slider.scrollStart + walk;
+            }}
+          >
+            <div className="flex gap-8 px-4 md:px-20 py-4">
+              {projets.map((projet, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[85%] sm:w-[70%] md:w-[500px] lg:w-[700px] bg-[#1a2036] rounded-2xl shadow-2xl border border-[#232a47] p-6 md:p-10"
+                >
+                  <h3 className="text-xl md:text-2xl font-bold mb-4">{projet.titre}</h3>
+                  <p className="text-sm">{projet.description}</p>
+                  <span className="mt-6 font-semibold text-white text-md md:text-lg block">{t.tech}</span>
+                  <div className="flex gap-4 mt-2 flex-wrap">
+                    {projet.technos.map((tech, i) => (
+                      <div key={i} className="w-8 h-8 relative">
+                        <Image src={`/${tech}`} alt={`Logo ${tech}`} fill className="object-contain" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
+
 
 
 
