@@ -34,7 +34,7 @@ export default function Navbar() {
   return (
     <>
       <nav className={navClasses}>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           {/* Desktop Menu */}
           <ul className="hidden md:flex items-center space-x-8 text-sm md:text-base font-semibold">
             {navItems.map((item) => (
@@ -65,17 +65,19 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-black text-2xl ml-4"
-          >
-            {menuOpen ? <FaTimes /> : <FaBars />}
-          </button>
+          {/* Mobile Menu Button centré */}
+          <div className="md:hidden flex w-full justify-center">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-black text-2xl"
+            >
+              {menuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Menu centré */}
       {menuOpen && (
         <div className="md:hidden fixed top-20 left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-xl p-6 z-40 text-center space-y-4 w-[90%] max-w-sm">
           {navItems.map((item) => (
@@ -93,17 +95,15 @@ export default function Navbar() {
               setLang(lang === "fr" ? "en" : "fr");
               setMenuOpen(false);
             }}
-            className="flex items-center justify-center gap-2 px-3 py-2 bg-black/10 text-black rounded-full hover:bg-black/20 transition"
+            className="mx-auto flex items-center justify-center gap-2 px-4 py-2 bg-black/10 text-black rounded-full hover:bg-black/20 transition"
           >
             <Image
               src={lang === "fr" ? "/w20/us.png" : "/w20/fr.png"}
-              alt={lang === "fr" ? "English flag" : "Drapeau français"}
+              alt={lang === "fr" ? "EN" : "FR"}
               width={20}
               height={20}
             />
-            <span className="text-xs font-semibold">
-              {lang === "fr" ? "EN" : "FR"}
-            </span>
+            <span className="text-sm font-semibold">{lang === "fr" ? "EN" : "FR"}</span>
           </button>
         </div>
       )}
