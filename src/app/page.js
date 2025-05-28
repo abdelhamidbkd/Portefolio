@@ -128,7 +128,7 @@ export default function Home() {
       <div id="top" className="min-h-screen bg-white dark:bg-gray-900">
 
         {/* Compétences Section */}
-        <section className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#f7d7f7] to-[#c9e4ff] text-gray-900 text-center px-4 scroll-mt-20">
+        <section className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#f7d7f7] to-[#c9e4ff] text-gray-900 text-center px-4 scroll-mt-20 pt-16">
           <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg mb-6">
             <Image
               src="/photo.jpeg"
@@ -145,13 +145,13 @@ export default function Home() {
             <a
               href="/BENKADA_CV_ALTERNANCE.pdf"
               download="BENKADA_CV_ALTERNANCE.pdf"
-              className="px-6 py-3 bg-white text-black border border-white rounded-full font-semibold transition hover:bg-transparent hover:text-black"
+              className="mt-4 px-6 py-3 bg-white text-black border border-white rounded-full font-semibold transition hover:bg-transparent hover:text-black"
             >
               {t.downloadCV}
             </a>
             <a
               href="#contact"
-              className="px-6 py-3 bg-white text-black border border-white rounded-full font-semibold transition hover:bg-transparent hover:text-black"
+              className="mt-4 mb-8 md:mb-0 px-6 py-3 bg-white text-black border border-white rounded-full font-semibold transition hover:bg-transparent hover:text-black"
             >
               {t.contact}
             </a>
